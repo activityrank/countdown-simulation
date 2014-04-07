@@ -1,0 +1,113 @@
+<!DOCTYPE>
+<html>
+    <head>
+
+        <style>
+            .b-page {
+                width: 748px;
+                margin-left: auto;
+                margin-right: auto;
+                font-family: sans-serif;
+
+            }
+
+            .b-page h1 {
+                border-bottom: 1px solid #000000;
+            }
+
+            .b-page h2 {
+                border-bottom: 1px dotted #000000;
+                text-align: right;
+            }
+
+            .b-simulation {
+                margin: 10px;
+                width: 728px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="b-page">
+
+            <h1>Simulation Test</h1>
+
+            <h2>First one wins</h2>
+            <div class="b-simulation first-one-wins">
+            </div>
+
+            <h2>Second one wins</h2>
+            <div class="b-simulation second-one-wins">
+            </div>
+
+            <h2>TIE</h2>
+            <div class="b-simulation its-tie">
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="bower_components/requirejs/require.js"> </script>
+        <script>
+            require.config({
+                "baseUrl": './',
+                "urlArgs": 'cb=' + (new Date()).getTime(),
+                "paths": {
+                    "jsb": "./bower_components/jsb/JsBehaviourToolkit",
+                    "jquery": "./bower_components/jquery/dist/jquery",
+                    "Simulation": "./index"
+                },
+                "shim": {
+                    "jsb": {
+                        "exports": "jsb",
+                        "deps": ["jquery"]
+                    }
+                }
+            });
+
+            requirejs(['jsb', 'jquery', 'Simulation'], function (jsb, $, Simulation) {
+                jsb.applyBehaviour(document.body);
+
+                /*
+                 * One COULD use data-jsb here in the dom elements and AVOID inline javascript. BUT: it's easier
+                 * to read this way!
+                 */
+                new Simulation($('.first-one-wins')[0], {
+                    "first": {
+                        "name": "First One",
+                        "score": 100
+                    },
+                    "second": {
+                        "name": "Second One",
+                        "score": 20
+                    },
+                    "speed": 1
+                });
+
+                new Simulation($('.second-one-wins')[0], {
+                    "first": {
+                        "name": "First One",
+                        "score": 20
+                    },
+                    "second": {
+                        "name": "Second One",
+                        "score": 100
+                    },
+                    "speed": 1
+                });
+
+                new Simulation($('.its-tie')[0], {
+                    "first": {
+                        "name": "First One",
+                        "score": 70
+                    },
+                    "second": {
+                        "name": "Second One",
+                        "score": 70
+                    },
+                    "speed": 1
+                });
+
+            });
+        </script>
+    </body>
+</html>
+</html>
